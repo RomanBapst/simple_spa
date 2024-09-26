@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <form v-if="!submitted" @submit.prevent="submitForm" class="form">
+    <form v-if="!submitted" class="form">
       <div class="form-group">
         <label for="name">First Name:</label>
         <input
@@ -97,6 +97,13 @@
       </div>
     </form>
 
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+      <!-- Show spinner while loading -->
+      <div v-if="loading" class="spinner">
+        <div class="loader"></div>
+      </div>
+
     <!-- Final message shown after an option is selected -->
     <div v-if="submitted" class="final-message">
       <p>
@@ -109,6 +116,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import axios from "axios";
 
 // Form fields
 const name = ref<string>("");
@@ -134,6 +142,9 @@ const inTouchOption = ref<string>("");
 const selectedTimeOption = ref<string>("");
 const errorMessage = ref<string | null>(null);
 
+
+const loading = ref<boolean>(false); // New loading state
+
 // Computed property to check if the form is valid (all fields filled)
 const isFormValid = computed(() => {
   return (
@@ -146,7 +157,16 @@ const isFormValid = computed(() => {
 
 // Handle button clicks
 const handleRedirect = async (): Promise<void> => {
-  window.location.href = "https://www.google.com";
+   loading.value = true; // Show spinner
+  try {
+    const response = await handleSubmit();
+  } catch (error) {
+    console.log(error)
+    errorMessage.value = "Submission failed. Please refresh the page and try again.";
+    loading.value = false
+    return
+  }
+  window.location.href = import.meta.env.VITE_REDIRECT_URL;
 };
 
 const handleShowTimeOptions = async (): Promise<void> => {
@@ -155,18 +175,73 @@ const handleShowTimeOptions = async (): Promise<void> => {
   errorMessage.value = null; // Clear error message if handle exists
 };
 
-const setTimeOption = (option: string): void => {
+const setTimeOption = async (option: string): Promise<void> => {
   selectedTimeOption.value = option;
+   loading.value = true; // Show spinner
+  try {
+    await handleSubmit();
+  } catch (error) {
+    console.log(error)
+    errorMessage.value = "Submission failed. Please refresh the page and try again.";
+    loading.value = false
+    return
+  }
   submitted.value = true; // Hide the form and show final message
+  loading.value = false; // Show spinner
   showTimeOptions.value = false;
+  
 };
 
 const setInTouchOption = (option: string): void => {
   inTouchOption.value = option;
 };
+
+const handleSubmit = async () : Promise<void> => {
+
+    return axios.post("http://localhost:" + import.meta.env.VITE_BACKEND_PORT + "/api/submit-data", {
+      name: name.value,
+      surname: surname.value,
+      instagram: instagram.value,
+      inTouchOption: inTouchOption.value,
+      watchTimeOption: selectedTimeOption.value,
+    });
+};
+
+
+
 </script>
 
 <style scoped>
+
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.loader {
+  border: 8px solid #f3f3f3; /* Light gray */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
 /* Styling the form container */
 .form-container {
   max-width: 400px;
