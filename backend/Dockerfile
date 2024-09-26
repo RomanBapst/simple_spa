@@ -13,8 +13,4 @@ USER node
 RUN npm install
 COPY --chown=node:node . .
 
-CMD ["npm", "run", "dev"]
-
-COPY --chown=node:node ./docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["node", "./src/server.js", "dev"]

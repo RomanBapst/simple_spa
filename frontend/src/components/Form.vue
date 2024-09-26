@@ -159,7 +159,7 @@ const isFormValid = computed(() => {
 const handleRedirect = async (): Promise<void> => {
    loading.value = true; // Show spinner
   try {
-    const response = await handleSubmit();
+    await handleSubmit();
   } catch (error) {
     console.log(error)
     errorMessage.value = "Submission failed. Please refresh the page and try again.";
