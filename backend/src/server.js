@@ -4,22 +4,24 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 8080;
 
 app.use(cors());
 app.use(express.json());
 
 app.post('/api/submit-data', async (req, res) => {
     try {
-        const { name, surname, instagram, inTouchOption, watchTimeOption } = req.body;
+        const { name, surname, instagram, inTouchOption, watchTimeOption, timestamp, device } = req.body;
         
         // Make the request to Google Apps Script API
         const googleResponse = await axios.post(process.env.GOOGLE_API_URL, {
+            timestamp,
             name,
             surname,
             instagram,
             inTouchOption,
-            watchTimeOption
+            watchTimeOption,
+            device
         });
         
         // If successful, forward the response back to the client
