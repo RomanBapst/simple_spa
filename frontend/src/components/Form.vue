@@ -213,7 +213,7 @@ const setInTouchOption = (option: string): void => {
 
 const handleSubmit = async () : Promise<void> => {
 
-    return axios.post("http://localhost:" + import.meta.env.VITE_BACKEND_PORT + "/api/submit-data", {
+    return axios.post(import.meta.env.VITE_SERVER_URL + "/api/submit-data", {
       name: name.value,
       surname: surname.value,
       instagram: instagram.value,
