@@ -155,9 +155,23 @@ const isFormValid = computed(() => {
   );
 });
 
+const getDeviceType = (): string => {
+  const userAgent = navigator.userAgent;
+  if (/Mobi|Android/i.test(userAgent)) {
+    return "Mobile";
+  } else {
+    return "Desktop";
+  }
+};
+
+const getCurrentTimestamp = (): string => {
+  return new Date().toISOString(); // Use ISO string format for timestamp
+};
+
 // Handle button clicks
 const handleRedirect = async (): Promise<void> => {
    loading.value = true; // Show spinner
+   errorMessage.value = ""
   try {
     await handleSubmit();
   } catch (error) {
@@ -177,6 +191,7 @@ const handleShowTimeOptions = async (): Promise<void> => {
 
 const setTimeOption = async (option: string): Promise<void> => {
   selectedTimeOption.value = option;
+  errorMessage.value = ""
    loading.value = true; // Show spinner
   try {
     await handleSubmit();
@@ -204,10 +219,10 @@ const handleSubmit = async () : Promise<void> => {
       instagram: instagram.value,
       inTouchOption: inTouchOption.value,
       watchTimeOption: selectedTimeOption.value,
+      timestamp: getCurrentTimestamp(),
+      device: getDeviceType()
     });
 };
-
-
 
 </script>
 
