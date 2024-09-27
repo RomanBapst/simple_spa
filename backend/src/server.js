@@ -6,27 +6,29 @@ require('dotenv').config();
 const app = express();
 const PORT = 8080;
 
-const options = {
-    allowedHeaders: [
-      'Origin',
-      'X-Requested-With',
-      'Content-Type',
-      'Accept',
-      'X-Access-Token',
-      'Authorization'
-    ],
-    credentials: true,
-    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-    origin: ["http://localhost:8095", "http://localhost"],
-    preflightContinue: false,
-  };
-  
+  const options = {
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+    'Authorization'
+  ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  origin: ["http://localhost:8095", "http://localhost"],
+  preflightContinue: false,
+};
+
+//use cors middleware
+app.use(cors(options));
   //use cors middleware
   app.use(cors(options));
 
 app.use(express.json());
 
-app.post('/api/submit-data', async (req, res) => {
+app.post('/', async (req, res) => {
     try {
         const { name, surname, instagram, inTouchOption, watchTimeOption, timestamp, device } = req.body;
         
