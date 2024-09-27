@@ -17,14 +17,12 @@ const PORT = 8080;
   ],
   credentials: true,
   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-  origin: ["http://localhost:8095", "http://localhost"],
+  origin: ["http://localhost:" + process.env.FRONTEND_PORT],
   preflightContinue: false,
 };
 
 //use cors middleware
 app.use(cors(options));
-  //use cors middleware
-  app.use(cors(options));
 
 app.use(express.json());
 

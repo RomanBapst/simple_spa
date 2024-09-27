@@ -112,6 +112,9 @@
       </p>
     </div>
   </div>
+    <footer class="copyright">
+      <p>Copyright Plasticfreefi</p>
+    </footer>
 </template>
 
 <script setup lang="ts">
@@ -221,7 +224,7 @@ const setInTouchOption = (option: string): void => {
 
 const handleSubmit = async () : Promise<void> => {
 
-    return axios.post(import.meta.env.VITE_SERVER_URL + "/api/submit-data/", {
+    return axios.post(import.meta.env.VITE_SERVER_URL, {
       name: name.value,
       surname: surname.value,
       instagram: instagram.value,
@@ -236,6 +239,12 @@ const handleSubmit = async () : Promise<void> => {
 
 <style scoped>
 
+.copyright {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #666;
+}
 
 .error-message {
   color: red;
