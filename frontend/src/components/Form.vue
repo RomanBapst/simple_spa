@@ -1,4 +1,5 @@
 <template>
+  <div class="background-container">
   <div class="form-container">
     <form v-if="!submitted" class="form">
       <div class="form-group">
@@ -115,6 +116,7 @@
     <footer class="copyright">
       <p>Copyright Plasticfreefi</p>
     </footer>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -239,6 +241,20 @@ const handleSubmit = async () : Promise<void> => {
 
 <style scoped>
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.background-container {
+  background-image: url('/images/image3.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh; /* or any other height you need */
+  margin: 0
+}
+
 .copyright {
   text-align: center;
   margin-top: 20px;
@@ -312,7 +328,7 @@ const handleSubmit = async () : Promise<void> => {
   padding: 10px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: #bfd4b6;
   color: white;
   font-size: 16px;
   cursor: pointer;
