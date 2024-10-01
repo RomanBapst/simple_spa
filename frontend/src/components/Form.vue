@@ -1,6 +1,7 @@
 <template>
   <div class="background-container">
   <div class="form-container">
+  <div class="form-wrapper">
     <form v-if="!submitted" class="form">
       <div class="form-group">
         <label for="name">First Name:</label>
@@ -36,7 +37,7 @@
       </div>
 
       <div>
-        <p>Are we already in touch?</p>
+        <p class="questions">Are we already in touch?</p>
         <div
           v-for="option in inTouchOptions"
           :key="option"
@@ -59,7 +60,7 @@
 
       <!-- Two buttons: one for redirecting, one for showing options -->
       <div v-if="!questionAsked">
-        <p>Are you ready to watch the 27 minutes Webclass now?</p>
+        <p class="questions" >Are you ready to watch the 27 minutes Webclass now?</p>
         <button
           type="button"
           class="action-button"
@@ -97,6 +98,7 @@
         </div>
       </div>
     </form>
+  </div>
 
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
@@ -288,6 +290,9 @@ html, body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.form-wrapper {
+  opacity: 1.0;
+}
 
 
 /* Styling the form container */
@@ -296,20 +301,28 @@ html, body {
   margin: 50px auto;
   padding: 20px;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: rgba(249, 249, 249, 0.2); 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: "Arial", sans-serif;
 }
 
+.questions {
+  font-size: 24px;
+}
+
+
+
 /* Styling the form groups */
 .form-group {
   margin-bottom: 15px;
+  opacity: 100%;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
+  font-size: 24px;
 }
 
 .form-group input {
@@ -317,7 +330,7 @@ html, body {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 24px;
 }
 
 /* Styling buttons */
@@ -327,10 +340,11 @@ html, body {
   width: 100%;
   padding: 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  border-color: black;
   background-color: #bfd4b6;
-  color: white;
-  font-size: 16px;
+  color: black;
+  font-size: 24px;
   cursor: pointer;
   margin-top: 15px;
   text-align: center;
@@ -365,7 +379,7 @@ html, body {
 .circle {
   width: 20px;
   height: 20px;
-  border: 2px solid #007bff;
+  border: 2px solid black;
   border-radius: 50%;
   margin-right: 10px;
   transition: background-color 0.3s ease;
@@ -373,7 +387,7 @@ html, body {
 }
 
 .filled {
-  background-color: #007bff;
+  background-color: #bfd4b6;
 }
 
 /* Final message styling */
