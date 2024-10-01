@@ -397,4 +397,56 @@ html, body {
   font-size: 18px;
   color: #333;
 }
+
+
+@media only screen and (max-width: 600px) {
+  /* Adjust form container size */
+  .form-container {
+    max-width: 90%; /* Use 90% of the screen width */
+    padding: 15px; /* Reduce padding */
+    margin: 30px auto; /* Adjust margin */
+    border-radius: 6px; /* Slightly reduce border radius */
+  }
+
+  /* Form group adjustments */
+  .form-group input {
+    padding: 10px; /* Larger padding for touch devices */
+    font-size: 16px; /* Larger font for better readability */
+  }
+
+  /* Button adjustments */
+  .action-button,
+  .option-button {
+    padding: 12px; /* Larger padding for easier touch interaction */
+    font-size: 16px; /* Larger font for buttons */
+    margin-top: 10px; /* Reduce spacing between buttons */
+  }
+
+  /* Adjust circle size for mobile */
+  .circle {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+
+  /* Adjust option container for mobile */
+  .option-container {
+    font-size: 14px; /* Slightly reduce font size */
+  }
+
+  /* Final message and error message adjustments */
+  .final-message, .error-message {
+    font-size: 16px; /* Make text a bit larger for readability */
+  }
+
+  /* Spinner adjustments for mobile */
+  .spinner {
+    height: 80px;
+  }
+
+  .loader {
+    width: 30px;
+    height: 30px;
+  }
+
 </style>
