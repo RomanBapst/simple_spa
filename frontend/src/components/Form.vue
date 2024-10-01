@@ -408,9 +408,8 @@ html, body {
   .form-container {
     max-width: 90%; /* Use 90% of the screen width */
     padding: 15px; /* Reduce padding */
-    margin: 30px auto; /* Adjust margin */
-    border-radius: 6px; /* Slightly reduce border radius */
   }
+
 
   /* Form group adjustments */
   .form-group input {
