@@ -253,8 +253,12 @@ html, body {
   background-image: url('/images/image3.jpg');
   background-size: cover;
   background-position: center;
-  height: 100vh; /* or any other height you need */
-  margin: 0
+  background-repeat: no-repeat; /* Ensure no repetition of the background */
+  width: 100%;
+  height: 100vh; /* 100% of the viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .copyright {
