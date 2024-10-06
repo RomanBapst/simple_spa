@@ -1,122 +1,95 @@
 <template>
-  <div class="background-container">
-  <div class="form-container">
-  <div class="form-wrapper">
-    <form v-if="!submitted" class="form">
-      <div class="form-group">
-        <label for="name">First Name:</label>
-        <input
-          type="text"
-          id="name"
-          v-model="name"
-          placeholder="Enter your first name"
-          required
-        />
-      </div>
+  <div class="min-h-screen bg-cover bg-center flex flex-col justify-between items-center" style="background-image: url('/images/image3.jpg')">
+    <div class="w-full max-w-md p-8 bg-white bg-opacity-0 my-8">
+      <div v-if="!submitted" class="space-y-6">
+        <form class="space-y-4">
+          <TextInput
+          v-model:value="name"
+          label="First Name"
+          />
+          <TextInput
+          v-model:value="surname"
+          label="Surname"
+          />
+          <TextInput
+          v-model:value="instagram"
+          label="Surname"
+          />
+          <div>
+            <p class="text-lg font-semibold mb-2">Are we already in touch?</p>
+            <div v-for="option in inTouchOptions" :key="option" class="flex items-center mb-2 space-x-3">
+              <div
+                class="w-7 h-7 border-2 border-green-900 rounded-full cursor-pointer"
+                :class="{ 'bg-green-100': inTouchOption === option }"
+                @click="setInTouchOption(option)"
+              ></div>
+              <Button
+              :button-text="option"
+              @buttonClicked="setInTouchOption(option)"
+              />
+            </div>
+          </div>
 
-      <div class="form-group">
-        <label for="surname">Surname:</label>
-        <input
-          type="text"
-          id="surname"
-          v-model="surname"
-          placeholder="Enter your surname"
-          required
-        />
-      </div>
+          <!-- Two buttons: one for redirecting, one for showing options -->
+          <div v-if="!questionAsked">
+            <p class="text-lg font-semibold mb-2">Are you ready to watch the 27 minutes Webclass now?</p>
+            <button
+              type="button"
+              class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 disabled:bg-gray-400"
+              @click="handleRedirect"
+              :disabled="!isFormValid"
+            >
+              Yes, I am ready now!
+            </button>
+            <button
+              type="button"
+              class="w-full bg-yellow-500 text-white py-2 rounded-md mt-2 hover:bg-yellow-600 disabled:bg-gray-400"
+              @click="handleShowTimeOptions"
+              :disabled="!isFormValid"
+            >
+              No, I need more time
+            </button>
+          </div>
 
-      <div class="form-group">
-        <label for="instagram">Instagram Handle:</label>
-        <input
-          type="text"
-          id="instagram"
-          v-model="instagram"
-          placeholder="Enter your Instagram handle"
-          required
-        />
+          <!-- Show options if user clicks "No, I need more time" -->
+          <div v-if="showTimeOptions">
+            <p class="text-lg font-semibold mb-2">When will you prioritize time to watch the Webclass?</p>
+            <div v-for="option in timeOptions" :key="option" class="flex items-center mb-2 space-x-3">
+              <div
+                class="w-5 h-5 border rounded-full cursor-pointer"
+                :class="{ 'bg-blue-600': selectedTimeOption === option }"
+                @click="setTimeOption(option)"
+              ></div>
+              <button
+                type="button"
+                class="text-lg focus:outline-none"
+                @click="setTimeOption(option)"
+              >
+                {{ option }}
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
-
-      <div>
-        <p class="questions">Are we already in touch?</p>
-        <div
-          v-for="option in inTouchOptions"
-          :key="option"
-          class="option-container"
-        >
-          <div
-            class="circle"
-            :class="{ filled: inTouchOption === option }"
-            @click="setInTouchOption(option)"
-          ></div>
-          <button
-            type="button"
-            class="option-button"
-            @click="setInTouchOption(option)"
-          >
-            {{ option }}
-          </button>
-        </div>
-      </div>
-
-      <!-- Two buttons: one for redirecting, one for showing options -->
-      <div v-if="!questionAsked">
-        <p class="questions" >Are you ready to watch the 27 minutes Webclass now?</p>
-        <button
-          type="button"
-          class="action-button"
-          @click="handleRedirect"
-          :disabled="!isFormValid"
-        >
-          Yes, I am ready now!
-        </button>
-        <button
-          type="button"
-          class="action-button"
-          @click="handleShowTimeOptions"
-          :disabled="!isFormValid"
-        >
-          No, I need more time
-        </button>
-      </div>
-
-      <!-- Show options if user clicks "No, I need more time" -->
-      <div v-if="showTimeOptions">
-        <p>When will you prioritise the time to watch the Webclass?</p>
-        <div v-for="option in timeOptions" :key="option" class="option-container">
-          <div
-            class="circle"
-            :class="{ filled: selectedTimeOption === option }"
-            @click="setTimeOption(option)"
-          ></div>
-          <button
-            type="button"
-            class="option-button"
-            @click="setTimeOption(option)"
-          >
-            {{ option }}
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-
-    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
 
       <!-- Show spinner while loading -->
-      <div v-if="loading" class="spinner">
-        <div class="loader"></div>
+      <div v-if="loading" class="flex justify-center items-center mt-4">
+        <div class="w-10 h-10 border-4 border-t-4 border-gray-200 rounded-full animate-spin border-t-blue-600"></div>
       </div>
 
-    <!-- Final message shown after an option is selected -->
-    <div v-if="submitted" class="final-message">
-      <p>
-        Once you are ready to watch the webclass, please use this link again and submit
-        your data.
-      </p>
+      <!-- Final message shown after an option is selected -->
+      <div v-if="submitted" class="text-center mt-4">
+        <p class="text-lg">
+          Once you're ready to watch the webclass, please use this link again and submit your data.
+        </p>
+      </div>
+
+      <!-- Error message -->
+      <p v-if="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</p>
     </div>
-  </div>
-    <footer class="copyright">
-      <p>Copyright Plasticfreefi</p>
+
+    <footer class="text-gray-500 text-xs py-4">
+      <p>&copy; Plasticfreefi</p>
     </footer>
   </div>
 </template>
@@ -124,6 +97,9 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import axios from "axios";
+
+import TextInput from "./TextInput.vue";
+import Button from "./Button.vue";
 
 // Form fields
 const name = ref<string>("");
@@ -148,7 +124,6 @@ const showTimeOptions = ref<boolean>(false);
 const inTouchOption = ref<string>("");
 const selectedTimeOption = ref<string>("");
 const errorMessage = ref<string | null>(null);
-
 
 const loading = ref<boolean>(false); // New loading state
 
@@ -238,219 +213,4 @@ const handleSubmit = async () : Promise<void> => {
       device: getDeviceType()
     });
 };
-
 </script>
-
-<style scoped>
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-.background-container {
-  background-image: url('/images/image3.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; /* Ensure no repetition of the background */
-  width: 100%;
-  height: 100vh; /* 100% of the viewport height */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.copyright {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 12px;
-  color: #666;
-}
-
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-}
-
-.loader {
-  border: 8px solid #f3f3f3; /* Light gray */
-  border-top: 8px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-.form-wrapper {
-  opacity: 1.0;
-}
-
-
-/* Styling the form container */
-.form-container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: rgba(249, 249, 249, 0.2); 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: "Arial", sans-serif;
-}
-
-.questions {
-  font-size: 24px;
-}
-
-
-
-/* Styling the form groups */
-.form-group {
-  margin-bottom: 15px;
-  opacity: 100%;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 24px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 24px;
-}
-
-/* Styling buttons */
-.action-button,
-.option-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  border-color: black;
-  background-color: #bfd4b6;
-  color: black;
-  font-size: 24px;
-  cursor: pointer;
-  margin-top: 15px;
-  text-align: center;
-}
-
-.action-button:disabled,
-.option-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.action-button:hover:not(:disabled),
-.option-button:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-/* Error message styling */
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 15px;
-}
-
-/* Option container */
-.option-container {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
-
-/* Circle for option selection */
-.circle {
-  width: 20px;
-  height: 20px;
-  border: 2px solid black;
-  border-radius: 50%;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-}
-
-.filled {
-  background-color: #bfd4b6;
-}
-
-/* Final message styling */
-.final-message {
-  text-align: center;
-  margin-top: 50px;
-  font-size: 18px;
-  color: #333;
-}
-
-
-@media only screen and (max-width: 600px) {
-  /* Adjust form container size */
-  .form-container {
-    max-width: 90%; /* Use 90% of the screen width */
-    padding: 15px; /* Reduce padding */
-  }
-
-
-  /* Form group adjustments */
-  .form-group input {
-    padding: 10px; /* Larger padding for touch devices */
-    font-size: 16px; /* Larger font for better readability */
-  }
-
-  /* Button adjustments */
-  .action-button,
-  .option-button {
-    padding: 12px; /* Larger padding for easier touch interaction */
-    font-size: 16px; /* Larger font for buttons */
-    margin-top: 10px; /* Reduce spacing between buttons */
-  }
-
-  /* Adjust circle size for mobile */
-  .circle {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-  }
-
-  /* Adjust option container for mobile */
-  .option-container {
-    font-size: 14px; /* Slightly reduce font size */
-  }
-
-  /* Final message and error message adjustments */
-  .final-message, .error-message {
-    font-size: 16px; /* Make text a bit larger for readability */
-  }
-
-  /* Spinner adjustments for mobile */
-  .spinner {
-    height: 80px;
-  }
-
-  .loader {
-    width: 30px;
-    height: 30px;
-  }
-}
-
-</style>
