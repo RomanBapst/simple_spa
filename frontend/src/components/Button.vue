@@ -2,6 +2,7 @@
 <template>
     <button
     type="button"
+    :disabled="props.disabled"
     class="text-lg py-2 focus:outline-none bg-fiona-light-green text-fiona-dark-green fill w-full rounded"
     @click="handleButtonClicked()"
     >
@@ -17,6 +18,10 @@ const props = defineProps({
     buttonText : {
         type: String,
         default: "Hey"
+    },
+    disabled : {
+        type: Boolean,
+        default: "False"
     }
 });
 
