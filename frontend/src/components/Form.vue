@@ -27,7 +27,7 @@
             <p class="text-lg font-semibold mb-2 font-cardo text-fiona-dark-green">Are we already in touch?</p>
             <div
             @click="toggleDropdown"
-            class="w-full px-4 py-2 border rounded-md bg-fiona-light-green text-fiona-dark-green cursor-pointer flex justify-between items-center"
+            class="w-full px-4 py-2 border rounded-md bg-fiona-light-green font-cardo text-fiona-dark-green cursor-pointer flex justify-between items-center"
             >
             <span>{{ selectedOption || "Select an option" }}</span>
             <!-- Arrow Icon aligned to the right -->
@@ -50,7 +50,7 @@
       
       <!-- Two buttons: one for redirecting, one for showing options -->
       <div v-if="isFormValid">
-        <p class="text-lg font-semibold mb-2 text-fiona-dark-green">Are you ready to watch the 27 minutes Webclass now?</p>
+        <p class="text-lg font-semibold mb-2 font-cardo text-fiona-dark-green">Are you ready to watch the 27 minutes Webclass now?</p>
         <Button
         buttonText="Yes, I am ready now!"
         @buttonClicked="handleRedirect"
@@ -78,7 +78,7 @@
           v-for="option in timeOptions"
           :key="option"
           @click="selectTimeOption(option)"
-          class="px-4 py-2 hover:bg-green-100 cursor-pointer text-fiona-dark-green"
+          class="px-4 py-2 hover:bg-green-100 cursor-pointer font-cardo text-fiona-dark-green"
           >
           {{ option }}
         </li>

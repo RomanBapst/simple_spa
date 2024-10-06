@@ -3,7 +3,7 @@
     <button
     type="button"
     :disabled="props.disabled"
-    class="text-lg py-2 focus:outline-none bg-fiona-light-green text-fiona-dark-green fill w-full rounded"
+    class="text-lg font-cardo py-2 focus:outline-none bg-fiona-light-green text-fiona-dark-green fill w-full rounded"
     @click="handleButtonClicked()"
     >
     {{ props.buttonText }}
