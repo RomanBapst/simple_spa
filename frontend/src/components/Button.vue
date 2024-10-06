@@ -2,7 +2,7 @@
 <template>
     <button
     type="button"
-    class="text-lg py-2 focus:outline-none bg-green-100 text-green-900 fill w-full rounded"
+    class="text-lg py-2 focus:outline-none bg-fiona-light-green text-fiona-dark-green fill w-full rounded"
     @click="handleButtonClicked()"
     >
     {{ props.buttonText }}
