@@ -1,5 +1,6 @@
 <template>
-  <div class="min-h-screen bg-cover bg-center flex flex-col justify-between items-center" style="background-image: url('/test/images/image3.jpg')">
+  <!-- <div class="min-h-screen bg-cover bg-center flex flex-col justify-between items-center" style="background-image: url('/test/images/image3.jpg')"> -->
+  <div class="min-h-screen bg-cover bg-center flex flex-col justify-between items-center bg-gray-100">
     <div class="w-full max-w-md p-8 bg-white bg-opacity-0 my-4">
       <div v-if="!submitted" class="space-y-6">
         <form class="space-y-4">
@@ -7,69 +8,91 @@
           v-model:value="name"
           label="First Name"
           placeholderText="Enter your first name"
+          class="text-fiona-dark-green"
           />
           <TextInput
           v-model:value="surname"
           label="Surname"
           placeholderText="Enter your surname"
+          class="text-fiona-dark-green"
           />
           <TextInput
           v-model:value="instagram"
-          label="Surname"
+          label="Instagram Handle"
           placeholderText="Enter your instagram handle"
+          class="text-fiona-dark-green"
           />
           
           <div class="relative inline-block w-full">
-          <p class="text-lg font-semibold mb-2 font-cardo text-fiona-dark-green">Are we already in touch?</p>
-            <div @click="toggleDropdown" class="w-full px-4 py-2 border rounded-md bg-fiona-light-green text-fiona-dark-green cursor-pointer">
-              {{ selectedOption || "Select an option" }}
-            </div>
-            
-            <ul v-if="dropdownOpen" class="absolute left-0 w-full mt-2 bg-white border rounded-md shadow-lg z-10">
-              <li
-              v-for="option in inTouchOptions"
-              :key="option"
-              @click="selectOption(option)"
-              class="px-4 py-2 hover:bg-green-100 cursor-pointer text-fiona-dark-green"
-              >
-              {{ option }}
-            </li>
-          </ul>
-        </div>
+            <p class="text-lg font-semibold mb-2 font-cardo text-fiona-dark-green">Are we already in touch?</p>
+            <div
+            @click="toggleDropdown"
+            class="w-full px-4 py-2 border rounded-md bg-fiona-light-green text-fiona-dark-green cursor-pointer flex justify-between items-center"
+            >
+            <span>{{ selectedOption || "Select an option" }}</span>
+            <!-- Arrow Icon aligned to the right -->
+            <span :class="{'transform rotate-180': dropdownOpen}" class="ml-2">
+              &#9662; <!-- Down arrow character -->
+            </span>
+          </div>
+          
+          <ul v-if="dropdownOpen" class="absolute left-0 w-full mt-2 bg-white border rounded-md shadow-lg z-10">
+            <li
+            v-for="option in inTouchOptions"
+            :key="option"
+            @click="selectOption(option)"
+            class="px-4 py-2 hover:bg-green-100 cursor-pointer text-fiona-dark-green"
+            >
+            {{ option }}
+          </li>
+        </ul>
+      </div>
       
       <!-- Two buttons: one for redirecting, one for showing options -->
-      <div v-if="!questionAsked">
+      <div v-if="isFormValid">
         <p class="text-lg font-semibold mb-2 text-fiona-dark-green">Are you ready to watch the 27 minutes Webclass now?</p>
-      <Button
+        <Button
         buttonText="Yes, I am ready now!"
         @buttonClicked="handleRedirect"
         class="mb-2"
-      />
-      <Button
+        :disabled="!isFormValid"
+        />
+        <Button
         buttonText="No, I need more time."
         @buttonClicked="handleShowTimeOptions"
-      />
-  </div>
-  
-  <!-- Show options if user clicks "No, I need more time" -->
-  <div v-if="showTimeOptions">
-    <p class="text-lg font-semibold mb-2">When will you prioritize time to watch the Webclass?</p>
-    <div v-for="option in timeOptions" :key="option" class="flex items-center mb-2 space-x-3">
-      <div
-      class="w-5 h-5 border rounded-full cursor-pointer"
-      :class="{ 'bg-blue-600': selectedTimeOption === option }"
-      @click="setTimeOption(option)"
-      ></div>
-      <button
-      type="button"
-      class="text-lg focus:outline-none"
-      @click="setTimeOption(option)"
-      >
-      {{ option }}
-    </button>
-  </div>
-</div>
-</form>
+        :disabled="!isFormValid"
+        />
+      </div>
+      
+      <div v-if="questionAsked" class="relative inline-block w-full">
+        <p class="text-lg font-semibold mb-2 font-cardo text-fiona-dark-green">When are you going to prioritise watching the Webclass?</p>
+        <div @click="toggleTimeDropdown" class="w-full px-4 py-2 border rounded-md bg-fiona-light-green text-fiona-dark-green cursor-pointer flex justify-between items-center">
+          {{ selectedTimeOption || "Select an option" }}
+          <span :class="{'transform rotate-180': dropdownOpen}">
+            &#9662; <!-- This is a down arrow character -->
+          </span>
+        </div>
+        
+        <ul v-if="timeDropdownOpen" class="absolute left-0 w-full mt-2 bg-white border rounded-md shadow-lg z-10">
+          <li
+          v-for="option in timeOptions"
+          :key="option"
+          @click="selectTimeOption(option)"
+          class="px-4 py-2 hover:bg-green-100 cursor-pointer text-fiona-dark-green"
+          >
+          {{ option }}
+        </li>
+      </ul>
+    </div>
+    
+    <Button
+    v-if="selectedTimeOption !== ''"
+    buttonText="Submit"
+    @buttonClicked="submitPressed"
+    />
+    
+    <!-- Show options if user clicks "No, I need more time" -->
+  </form>
 </div>
 
 <!-- Show spinner while loading -->
@@ -79,7 +102,7 @@
 
 <!-- Final message shown after an option is selected -->
 <div v-if="submitted" class="text-center mt-4">
-  <p class="text-lg">
+  <p class="text-lg text-fiona-dark-green font-cardo">
     Once you're ready to watch the webclass, please use this link again and submit your data.
   </p>
 </div>
@@ -89,13 +112,13 @@
 </div>
 
 <footer class="text-gray-500 text-xs py-4">
-  <p>&copy; Plasticfreefi</p>
+  <p class="text-2xl text-fiona-dark-green">&copy; Plasticfreefi</p>
 </footer>
 </div>
 </template>
 
 <script setup lang="ts">
-import { ref} from "vue";
+import { ref, computed} from "vue";
 import axios from "axios";
 
 import TextInput from "./TextInput.vue";
@@ -128,26 +151,35 @@ const errorMessage = ref<string | null>(null);
 const loading = ref<boolean>(false); // New loading state
 
 const dropdownOpen = ref(false);
+const timeDropdownOpen = ref(false);
 const selectedOption = ref("");
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value;
 };
+const toggleTimeDropdown = () => {
+  timeDropdownOpen.value = !timeDropdownOpen.value;
+};
 
 const selectOption = (option : any) => {
   selectedOption.value = option;
+  inTouchOption.value = option
   dropdownOpen.value = false;
+};
+const selectTimeOption = (option : any) => {
+  selectedTimeOption.value = option
+  timeDropdownOpen.value = false;
 };
 
 // Computed property to check if the form is valid (all fields filled)
-// const isFormValid = computed(() => {
-//   return (
-//   name.value.trim() !== "" &&
-//   surname.value.trim() !== "" &&
-//   instagram.value.trim() !== "" &&
-//   inTouchOption.value !== ""
-//   );
-// });
+const isFormValid = computed(() => {
+  return (
+  name.value.trim() !== "" &&
+  surname.value.trim() !== "" &&
+  instagram.value.trim() !== "" &&
+  inTouchOption.value !== ""
+  );
+});
 
 const getDeviceType = (): string => {
   const userAgent = navigator.userAgent;
@@ -191,8 +223,8 @@ const handleShowTimeOptions = async (): Promise<void> => {
   errorMessage.value = null; // Clear error message if handle exists
 };
 
-const setTimeOption = async (option: string): Promise<void> => {
-  selectedTimeOption.value = option;
+const submitPressed = async (): Promise<void> => {
+  console.log("Submit button pressed");
   errorMessage.value = ""
   loading.value = true; // Show spinner
   try {
