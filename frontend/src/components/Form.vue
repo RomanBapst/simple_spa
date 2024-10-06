@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-cover bg-center flex flex-col justify-between items-center" style="background-image: url('/images/image3.jpg')">
+  <div class="min-h-screen bg-cover bg-center flex flex-col justify-between items-center" style="background-image: url('/test/images/image3.jpg')">
     <div class="w-full max-w-md p-8 bg-white bg-opacity-0 my-8">
       <div v-if="!submitted" class="space-y-6">
         <form class="space-y-4">
