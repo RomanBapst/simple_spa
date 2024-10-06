@@ -134,20 +134,20 @@ const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value;
 };
 
-const selectOption = (option) => {
+const selectOption = (option : any) => {
   selectedOption.value = option;
   dropdownOpen.value = false;
 };
 
 // Computed property to check if the form is valid (all fields filled)
-const isFormValid = computed(() => {
-  return (
-  name.value.trim() !== "" &&
-  surname.value.trim() !== "" &&
-  instagram.value.trim() !== "" &&
-  inTouchOption.value !== ""
-  );
-});
+// const isFormValid = computed(() => {
+//   return (
+//   name.value.trim() !== "" &&
+//   surname.value.trim() !== "" &&
+//   instagram.value.trim() !== "" &&
+//   inTouchOption.value !== ""
+//   );
+// });
 
 const getDeviceType = (): string => {
   const userAgent = navigator.userAgent;
@@ -209,9 +209,9 @@ const setTimeOption = async (option: string): Promise<void> => {
   
 };
 
-const setInTouchOption = (option: string): void => {
-  inTouchOption.value = option;
-};
+// const setInTouchOption = (option: string): void => {
+//   inTouchOption.value = option;
+// };
 
 const handleSubmit = async () : Promise<void> => {
   
