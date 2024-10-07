@@ -112,7 +112,7 @@
 </div>
 
 <footer class="text-gray-500 text-xs py-4">
-  <p class="text-2xl text-fiona-dark-green">&copy; Plasticfreefi</p>
+  <p class="text-lg text-fiona-dark-green">&copy; Plasticfreefi</p>
 </footer>
 </div>
 </template>
