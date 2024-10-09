@@ -1,5 +1,5 @@
           <template>
-            <div class="flex flex-col space-y-2">
+            <div class="flex flex-col space-y-1">
                 <label for="surname" class="font-bold text-lg text-fiona-dark-green font-cardo">{{props.label}}</label>
                 <input
                 type="text"
