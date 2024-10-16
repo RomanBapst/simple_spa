@@ -1,7 +1,22 @@
 <template>
   <!-- <div class="min-h-screen bg-cover bg-center flex flex-col justify-between items-center" style="background-image: url('/test/images/image3.jpg')"> -->
   <div class="min-h-screen bg-cover bg-center flex flex-col justify-between items-center bg-gray-100">
-    <div class="w-full max-w-md p-8 bg-white bg-opacity-0 my-4">
+  <div v-if="!initialMessageRead" class="max-w-md p-8 text-fiona-dark-green">
+  <p class=" text-center mb-4">Hello, I'm Fiona, and I divide my time between Tanzania, Scotland and Traveling.
+  My journey as an independent distributor began with a passion for reducing single-use plastic, and I am now well
+  on the way to making this my full-time occupation.
+It wasn't easy. I followed the conventional path, working for a multinational real estate firm and later for
+Microsoft, before taking a leap into the world of carbon accounting with a startup. But after the loss of my best friend,
+ I realized I needed more than the 9-to-5 grind. I wanted to live on my terms — working remotely, free from rigid
+  schedules, and fully experiencing life.
+In September 2023, I found a game-changing opportunity: a high-ticket network marketing business perfectly aligned with
+ my passions for health, sustainability, and zero waste. If you're ready to explore a sustainable, purpose-driven way to earn online, I invite you to check out my FREE WEBCLASS
+ and take the first step towards what’s possible for you!
+</p>
+<Button button-text="Signup to watch Webclass" @button-clicked="initialMessageRead = true">
+</Button>
+  </div>
+    <div v-if="initialMessageRead" class="w-full max-w-md p-8 bg-white bg-opacity-0 my-4">
       <div v-if="!submitted" class="space-y-6">
         <form class="space-y-4">
           <TextInput
@@ -147,6 +162,7 @@ const showTimeOptions = ref<boolean>(false);
 const inTouchOption = ref<string>("");
 const selectedTimeOption = ref<string>("");
 const errorMessage = ref<string | null>(null);
+const initialMessageRead = ref(false)
 
 const loading = ref<boolean>(false); // New loading state
 
