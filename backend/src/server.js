@@ -29,8 +29,9 @@ app.use(express.json());
 app.post('/', async (req, res) => {
     try {
         console.log("getting a request!!!!!!!!!!!!!!!!!!!!!!!")
-        const userIp = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-        console.log("user ip " + userIp)
+        const userIp = req.headers["x-forwarded-for"]
+        const otherIp = req.socket.remoteAddress;
+        console.log("user ip " + userIp + " " + otherIp)
         const { name, surname, instagram, inTouchOption, watchTimeOption, timestamp, device } = req.body;
         
         // Make the request to Google Apps Script API
