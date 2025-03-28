@@ -30,10 +30,16 @@ app.post('/', async (req, res) => {
     try {
         console.log("getting a request!!!!!!!!!!!!!!!!!!!!!!!")
         const userIp = req.headers["x-forwarded-for"]
-        const otherIp = req.socket.remoteAddress;
-        console.log("user ip " + userIp + " and " + otherIp)
+        console.log("user ip " + userIp)
         const { name, surname, instagram, inTouchOption, watchTimeOption, timestamp, device } = req.body;
-        
+
+        const fbp = req.cookies._fbp // Meta's first-party cookie
+        const fbc = req.cookies._fbc  // Click ID from Meta ad
+
+        console.log("fpb: " + fbp)
+        console.log("fbc: " + fbc)
+
+
         // Make the request to Google Apps Script API
         const googleResponse = await axios.post(process.env.GOOGLE_API_URL, {
             timestamp,
