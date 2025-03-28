@@ -33,11 +33,15 @@ app.post('/', async (req, res) => {
         console.log("user ip " + userIp)
         const { name, surname, instagram, inTouchOption, watchTimeOption, timestamp, device } = req.body;
 
-        const fbp = req.cookies._fbp // Meta's first-party cookie
-        const fbc = req.cookies._fbc  // Click ID from Meta ad
+        try {
+            const fbp = req.cookies._fbp // Meta's first-party cookie
+            const fbc = req.cookies._fbc  // Click ID from Meta ad
 
-        console.log("fpb: " + fbp)
-        console.log("fbc: " + fbc)
+            console.log("fpb: " + fbp)
+            console.log("fbc: " + fbc)
+        } catch(error) {
+            console.log(error.message)
+        }
 
 
         // Make the request to Google Apps Script API
